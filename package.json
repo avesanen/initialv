@@ -8,4 +8,8 @@
 		"socket.io": ">=0.9.x"
 	},
 	"engine": "node 0.8.x"
+	"repository": {
+		"type": "git",
+		"url": "http://git.namochan.com/initialv.git"
+  },
 }
