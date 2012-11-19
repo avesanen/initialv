@@ -40,6 +40,7 @@ var game = function() {
         y: 0,
         dx: 0,
         dy: 0,
+        angle: 0,
         sprite: "",
         animation: ""
     };

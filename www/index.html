@@ -27,17 +27,67 @@ Use arrow keys to move map.
         this.y = 0;
         imageObj.onload = function() {
             setInterval(function(){
-                if(keyStates[39]) that.x++;
-                if(keyStates[37]) that.x--;
-                if(keyStates[38]) that.y--;
-                if(keyStates[40]) that.y++;
+            	context.moveTo(0,0);
+                //if(keyStates[39]) that.x++;
+                //if(keyStates[37]) that.x--;
+                //if(keyStates[38]) that.y--;
+                //if(keyStates[40]) that.y++;
                 context.drawImage(imageObj, -that.x, -that.y);
             },1/10);
         };
         imageObj.src = "img/test.png";
     };
 
+	var ship = function () {
+		this.angle = 2;
+		this.x = 100;
+		this.y = 100;
+		this.dx = 0;
+		this.dy = 0;
+		setInterval(function(){
+            if(keyStates[37]) {
+              	this.angle-=0.02;
+               	//alert(this.angle);
+            }
+            if(keyStates[39]) {
+               	this.angle+=0.02;
+               	//alert(this.angle);
+            }
+            if(keyStates[38]) {
+            	this.dx += Math.sin(this.angle)/500;
+            	this.dy -= Math.cos(this.angle)/500;
+            }
+            
+            //this.dy = this.dy + 0.002; // gravitation
+            this.y += this.dy;
+            this.x += this.dx;
+            
+            var canvas = document.getElementById('layer1');
+    		var ctx = canvas.getContext('2d');
+    		ctx.save(); // we want to rotate only the ship
+    		ctx.translate(this.x,this.y);
+    		ctx.beginPath();
+    		ctx.strokeStyle = '#00ff00';
+    		ctx.lineWidth = 2;
+    		ctx.rotate(this.angle);
+    		ctx.moveTo(0,-8);
+    		ctx.lineTo(-8,+8);
+    		ctx.lineTo(+8,+8);
+    		ctx.closePath();
+    		ctx.stroke();
+    		ctx.restore(); // restore rotation etc.
+        },1/10);
+	};
+
     var m = map();
+    var s = ship();
+    
+    /*function canvasRefresh()
+    {
+    alert("moi");
+    }
+    
+    setinterval(canvasRefresh(), 1/1000);*/
 
     // Keyboard states
     var keyStates = {};
