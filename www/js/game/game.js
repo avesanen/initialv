@@ -2,6 +2,7 @@ define(function(require,exports){
     var io = require("socket.io/socket.io");
     var keyboard = require("./keyboard");
     var gfx = require("./gfx");
+    var sfx = require("./sfx");
     var socket = io.connect();
 
     var objects = {};
@@ -35,6 +36,10 @@ define(function(require,exports){
     spr.img.src = "img/sprite.png";
     spr.height = 128;
     spr.width = 128;
+    spr.x = 100;
+    spr.y = 100;
+    spr.dx = 50;
+    spr.dy = 50;
 	
 	// "Crater" that is drawn to the map canvas if a bullet hits it causing damage to the map
 	crater = gameObject.newGameObject();
@@ -51,7 +56,13 @@ define(function(require,exports){
 	mapOriginal.height = 960;
 	mapOriginal.x = mapOriginal.width / 2; // Because drawSprite is centered
 	mapOriginal.y = mapOriginal.height / 2;
-		
+
+    //var bgm = new Audio("audio/bgm.mp3");
+    //var sfxHit = new Audio("audio/sfx.mp3")
+    sfx.init();
+
+    //bgm.play();
+    sfx.playBgm("bgm");
     setInterval(function(){
 		// Draw the map image to map canvas - do only once at the beginning of game
 		// The map canvas is then "destroyed" by explosion sprites and a part of it
@@ -66,10 +77,13 @@ define(function(require,exports){
         gfx.drawSprite(spr);
         spr.refresh();
 
-        if (spr.x >= 640-64){spr.dx=-50;spr.dangle=Math.random()*5-2.5}
-        if (spr.y >= 480-64){spr.dy=-50;spr.dangle=Math.random()*5-2.5}
-        if (spr.x <= 64){spr.dx=50;spr.dangle=Math.random()*5-2.5}
-        if (spr.y <= 64){spr.dy=50;spr.dangle=Math.random()*5-2.5}
+        if (spr.x >= 640-64){spr.dx=-50;spr.dangle=Math.random()*5-2.5;sfx.playSfx(0)}
+        if (spr.y >= 480-64){spr.dy=-50;spr.dangle=Math.random()*5-2.5;sfx.playSfx(0)}
+        if (spr.x <= 64){spr.dx=50;spr.dangle=Math.random()*5-2.5;sfx.playSfx(0)}
+        if (spr.y <= 64){spr.dy=50;spr.dangle=Math.random()*5-2.5;sfx.playSfx(0)}
+
+        // Test map collision where the bottle cap is
+        console.log(gfx.getMapCollision(spr.x, spr.y));
 		
 		// Do random craters just to demonstrate them
 		if (Math.random()<1.0)

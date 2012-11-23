@@ -12,7 +12,7 @@ define(['jquery','exports'], function ($,exports) {
 	/**
 	* Draw a sprite to some canvas or the main canvas if none specified
 	* @param sprite The sprite object to draw
-	* @param mapCanvas Optional parameter. If true, draw to map canvas instead.
+	* @param useMapCanvas Optional parameter. If true, draw to map canvas instead.
 	*/
     exports.drawSprite = function(sprite, useMapCanvas) {
 		var drawCtx;
@@ -36,4 +36,22 @@ define(['jquery','exports'], function ($,exports) {
 	exports.drawMap = function(xScroll, yScroll) {
 		ctx.drawImage(mapCanvas, -xScroll, -yScroll);
 	};
+
+    /**
+     * Get collision value from the map canvas at specific coords
+     * Used for bullet/ship <-> map collision detection
+     * @param x
+     * @param y
+     * @returns true or false
+     */
+    exports.getMapCollision = function(x, y) {
+        pixel = mapCtx.getImageData(x, y, 1, 1);
+        // data has 4 indexes - R, G, B, A
+        //console.log('RGBA = '+pixel.data[0]+', '+pixel.data[1]+', '+pixel.data[2]+', '+pixel.data[3]);
+        // If pixel is not transparent and it's not black then it is wall
+        if ((pixel.data[3]>0) && ((pixel.data[2]>0) || (pixel.data[1]>0) || (pixel.data[0]>0)))
+            return true;
+        else
+            return false;
+    };
 });
