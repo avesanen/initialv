@@ -24,4 +24,13 @@ define(['jquery','exports','require'], function ($,exports,require) {
             }
         };
     };
+    exports.loadImage = function(filename) {
+        /*this.img.onLoad = function () {
+            this.count++;
+            this.width = this.img.width;
+            this.height = this.img.height;
+        };*/
+        this.img.src = "img/" + filename;
+
+    };
 });
