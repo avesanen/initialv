@@ -1,4 +1,5 @@
 define(['jquery','exports','require'], function ($,exports,require) {
+    exports.list = {};
     exports.newGameObject = function() {
         return new function() {
             this.x = 0;
@@ -20,7 +21,6 @@ define(['jquery','exports','require'], function ($,exports,require) {
                 that.y += that.dy * (currentTime-lastRefresh)/1000;
                 that.angle += that.dangle * (currentTime-lastRefresh)/1000;
                 lastRefresh = currentTime;
-                console.log(that.x);
             }
         };
     };

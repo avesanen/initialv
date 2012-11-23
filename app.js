@@ -26,34 +26,34 @@ io.sockets.on('connection', function (socket) {
     connections[socket.uuid] = socket;
     console.log("UUID: " + socket.uuid + " connected.");
 
+    socket.emit('player_uuid',{
+        uuid:socket.uuid
+    });
+
+    io.sockets.emit('obj_sync',{
+        uuid: socket.uuid,
+        x:100,
+        y:100,
+        dx:0,
+        dy:0,
+        angle:0,
+        dangle:0,
+        width:64,
+        height:64
+    });
+
+    setInterval(function(){
+        io.sockets.emit('req_player',{});
+    },100);
+
+    socket.on('obj_sync',function(data){
+        socket.broadcast.emit('obj_sync',data);
+    });
+
     // When socket disconnects, delete UUID from active connections.
     socket.on('disconnect', function () {
+        io.sockets.emit('del_obj',{uuid:socket.uuid});
         delete connections[socket.uuid];
         console.log("UUID: " + socket.uuid + " disconnected.");
     });
 });
-
-var game = function() {
-    this.object = {
-        uuid: "",
-        x: 0,
-        y: 0,
-        dx: 0,
-        dy: 0,
-        angle: 0,
-        sprite: "",
-        animation: ""
-    };
-
-    this.objects = {};
-
-    var refresh = function() {
-        var that = this;
-        for (var i in that.objects) {
-            if (that.objects.hasOwnProperty(i)) {
-                that.objects[i].x += that.objects[i].dx;
-                that.objects[i].y += that.objects[i].dy;
-            }
-        }
-    }
-};

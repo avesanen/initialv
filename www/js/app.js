@@ -3,7 +3,8 @@ requirejs.config({
     baseUrl: '/',
     paths: {
         game: '/js/game',
-        lib: '/js/lib'
+        lib: '/js/lib',
+        'socket.io': 'socket.io/socket.io'
     }
 });
 
