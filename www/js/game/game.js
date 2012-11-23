@@ -1,6 +1,6 @@
 define(function(require,exports){
     var keyboard = require("./keyboard");
-    var gfx = require("./gfx");
+    //var gfx = require("./gfx");
     var network = require("./network");
     var gameObject = require('./gameobject');
     var sfx = require("./sfx");
@@ -18,19 +18,30 @@ define(function(require,exports){
 	// "Crater" that is drawn to the map canvas if a bullet hits it causing damage to the map
 	crater = gameObject.newGameObject();
     crater.img.src = "img/crater.png";
+    //gameObject.loadImage("crater.png");
     crater.height = 32;
     crater.width = 32;
+    //crater.img.onLoad = function(){
+    //    alert("Latautu");
+    //};
 
     var fps = 60;
 	
 	// Hold the map image. It can be large since it is drawn only once.
-	mapOriginal = gameObject.newGameObject();
+	/*mapOriginal = gameObject.newGameObject();
 	mapOriginal.img.src = "img/map.png";
 	mapOriginal.width = 1280;
 	mapOriginal.height = 960;
 	mapOriginal.x = mapOriginal.width / 2; // Because drawSprite is centered
 	mapOriginal.y = mapOriginal.height / 2;
-    gfx.drawSprite(mapOriginal, true);
+    gfx.drawSprite(mapOriginal, true);*/
+
+    var map = require('./gamemap');
+    map.init("#mapcanvas");
+    map.loadMap("img/map.png");
+
+    //var sprites = require('./sprites');
+    //sprites.init($('spritescanvas'));
 
     sfx.init();
 
@@ -50,8 +61,11 @@ define(function(require,exports){
             player.dy -= Math.cos(player.angle)*5;
         }
 
-        gfx.clear();
-        gfx.drawMap(player.x, player.y);
+        //sprites.redraw(); // päivittää kaikki spritet
+
+        //gfx.clear();
+        //gfx.drawMap(player.x, player.y);
+
         for (var i in gameObject.list) {
             if (gameObject.list.hasOwnProperty(i)) {
                 var obj = gameObject.list[i];
@@ -76,15 +90,16 @@ define(function(require,exports){
                     obj.dy=-obj.dy;
                     sfx.playSfx(0);
                 }
-                gfx.drawSprite(obj);
+                //gfx.drawSprite(obj);
             }
         }
 
-        console.log(gfx.getMapCollision(player.x, player.y));
+        //console.log(gfx.getMapCollision(player.x, player.y));
 
-        crater.x = Math.random()*1280;
+        /*crater.x = Math.random()*1280;
         crater.y = Math.random()*960;
-        gfx.drawSprite(crater, true);
+        gfx.drawSprite(crater, true);*/
+        map.createCrater(Math.random()*1280, Math.random()*960);
 
     },1000/fps);
 
