@@ -25,15 +25,16 @@ define(['jquery','exports'], function ($,exports) {
         this.dx = (speed/1000) * Math.sin(angle * Math.PI / 180);
         this.dy = -(speed/1000) * Math.cos(angle * Math.PI / 180);
         this.life = life;
+        this.startlife = life;
         this.size = 20;
         this.startsize = 20;
-        this.startlife = life;
-        this.color = [0,0,0,0.4];
+        this.color = [255,0,0,0.5];
+
     };
 
     Particle.prototype.refresh = function(dt) {
         this.life -= dt;
-        this.size = (this.startlife-this.life)/this.startlife * this.startsize;
+        this.size = 5;
         this.x += this.dx * dt;
         this.y += this.dy * dt;
     };
@@ -45,6 +46,15 @@ define(['jquery','exports'], function ($,exports) {
         ctx.closePath();
         ctx.fill();
     };
+
+    exports.emitter = function(x,y,amount) {
+        exports.emit(x,y,Math.random()*360,40,1000);
+        setTimeout(function(){
+            if (amount > 0) {
+                amount -= 1;
+                exports.emitter(x,y,amount);
+            }},1000/30);
+    }
 
     exports.emit = function(x,y,angle,speed,life) {
         particles.push(new Particle(x,y,angle,speed,life));

@@ -55,6 +55,8 @@ define(function(require,exports){
 
         sprites.refresh(dt);
         if(map.getMapCollision(player.x, player.y)) {
+            if(Math.abs(player.dx) > 0.1 || Math.abs(player.dy) > 0.1)
+                particles.emitter(player.x,player.y,20);
             player.x -= player.dx * dt;
             player.y -= player.dy * dt;
             player.dx = -player.dx/2;

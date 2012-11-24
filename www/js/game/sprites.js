@@ -34,7 +34,6 @@ define(['jquery','exports'], function ($,exports) {
         this.height = 64;   // TODO:    F
         this.width = 64;    // TODO: <- I
         this.img = tempImg; // TODO:    X
-        console.log(this.width, this.height);
     };
 
     Sprite.prototype.refresh = function (dt) {
