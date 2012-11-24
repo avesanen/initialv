@@ -3,7 +3,7 @@ define(function(require,exports){
     //var gfx = require("./gfx");
     //var network = require("./network");
     var sfx = require("./sfx");
-    var map = require('./gamemap');
+    var map = require('./map');
     var particles = require('./particles');
     var sprites = require('./sprites');
 
