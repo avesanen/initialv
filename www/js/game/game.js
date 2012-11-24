@@ -40,8 +40,9 @@ define(function(require,exports){
 
         // Refresh and draw particles.
         map.createCrater(Math.random()*1280, Math.random()*960);
+        particles.emit(player.x,player.y,player.angle-190+Math.random()*20,30,Math.random()*10000+1000);
         if (player.acceleration != 0) {
-            particles.emit(player.x,player.y,player.angle-190+Math.random()*20,300,Math.random()*2000);
+            particles.emit(player.x,player.y,player.angle-190+Math.random()*20,300,Math.random()*1000+1000);
         }
         particles.reDraw();
         sprites.reDraw();
