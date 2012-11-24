@@ -17,7 +17,7 @@ define(['jquery','exports'], function ($,exports) {
         ctx = canvas.getContext('2d');
     };
 
-    var spritelist = [];
+    exports.spritelist = [];
     var tempImg = new Image();
     tempImg.onload = function() {
         console.log(this.src + ": " + this.width + 'x' + this.height);
@@ -34,6 +34,7 @@ define(['jquery','exports'], function ($,exports) {
         this.height = 64;   // TODO:    F
         this.width = 64;    // TODO: <- I
         this.img = tempImg; // TODO:    X
+        console.log(this.width, this.height);
     };
 
     Sprite.prototype.refresh = function (dt) {
@@ -63,7 +64,7 @@ define(['jquery','exports'], function ($,exports) {
      */
     exports.newSprite = function(x,y,angle,speed) {
         var spr = new Sprite(x,y,angle,speed);
-        spritelist.push(spr);
+        this.spritelist.push(spr);
         return spr;
     };
 
@@ -72,8 +73,8 @@ define(['jquery','exports'], function ($,exports) {
      * @param dt
      */
     exports.refresh = function(dt) {
-        for(var i = 0; i < spritelist.length;i++){
-            spritelist[i].refresh(dt);
+        for(var i = 0; i < this.spritelist.length;i++){
+            this.spritelist[i].refresh(dt);
         }
     };
 
@@ -82,8 +83,9 @@ define(['jquery','exports'], function ($,exports) {
      */
     exports.reDraw = function() {
         canvas.width = canvas.width;
-        for(var i = 0; i < spritelist.length;i++){
-            spritelist[i].draw();
+        for(var i = 0; i < this.spritelist.length;i++){
+            this.spritelist[i].draw();
         }
     };
+
 });
