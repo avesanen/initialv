@@ -6,6 +6,7 @@ define(function(require,exports){
     var map = require('./map');
     var particles = require('./particles');
     var sprites = require('./sprites');
+    var physics = require('./physics');
 
     // Init sound and start music.
     sfx.init();
@@ -21,9 +22,18 @@ define(function(require,exports){
     // Init sprite engine
     sprites.init('#spritecanvas', map);
 
+    physics.init();
+
     var fps = 60;
 
     var player = sprites.newSprite(100,100,0,0,map);
+    player.onCollision = function(map, dt) {
+        map.createCrater(this.x, this.y);
+        this.x -= this.dx * dt;
+        this.y -= this.dy * dt;
+        this.dx = 0;
+        this.dy = 0;
+    }
 
     var lastRefresh = new Date().getTime();
 
@@ -54,12 +64,13 @@ define(function(require,exports){
         particles.reDraw();
 
         sprites.refresh(dt);
-        if(map.getMapCollision(player.x, player.y)) {
+        /*if(map.getMapCollision(player.x, player.y)) {
             player.x -= player.dx * dt;
             player.y -= player.dy * dt;
             player.dx = -player.dx/2;
             player.dy = -player.dy/2;
-        }
+        }*/
+        physics.checkCollision(map, sprites, dt);
         sprites.reDraw();
 
         lastRefresh = now;
