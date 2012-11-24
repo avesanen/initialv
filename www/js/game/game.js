@@ -6,6 +6,7 @@ define(function(require,exports){
     var map = require('./map');
     var particles = require('./particles');
     var sprites = require('./sprites');
+    var physics = require('./physics');
 
     // Init sound and start music.
     sfx.init();
@@ -46,6 +47,8 @@ define(function(require,exports){
         }
         particles.reDraw();
         sprites.reDraw();
+
+        physics.checkCollision(map, sprites);
     },1000/fps);
 
 });
