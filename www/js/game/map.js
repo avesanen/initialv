@@ -6,9 +6,10 @@
  *  map.loadMap('img/map.png');
  */
 define(['jquery','exports'], function ($,exports) {
-
     var canvas;
     var ctx;
+    var width = 2000;
+    var height = 2000;
     var that=this;
 
     /**
@@ -28,10 +29,19 @@ define(['jquery','exports'], function ($,exports) {
         var img = new Image();
         img.onload = function() {
             that.ctx.drawImage(img, 0, 0);
+            that.width = img.width;
+            that.height = img.height;
         };
         img.src = mapurl;
     };
 
+    /**
+     * Draw a horizontal line directly to canvas image data
+     * The line is completely black and transparent
+     * @param x1
+     * @param x2
+     * @param y
+     */
     exports.drawLine = function(x1, x2, y) {
         var width = x2 - x1;
         if (width > 0)
@@ -45,6 +55,11 @@ define(['jquery','exports'], function ($,exports) {
         }
     };
 
+    /**
+     * Create a crater to the map
+     * @param center_x
+     * @param center_y
+     */
     exports.createCrater = function(center_x, center_y) {
         /*that.ctx.fillStyle = "rgba(0,0,0,255)";
         that.ctx.beginPath();

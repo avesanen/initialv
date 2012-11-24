@@ -13,7 +13,7 @@ define(function(require,exports){
 
     // Init and load map
     map.init("#mapcanvas");
-    map.loadMap("img/map.png");
+    map.loadMap("img/testmap.png");
 
     // Init particle engine.
     particles.init('#particlecanvas');
@@ -23,7 +23,7 @@ define(function(require,exports){
 
     var fps = 60;
 
-    var player = sprites.newSprite(100,100,0,0);
+    var player = sprites.newSprite(100,100,0,0,map);
 
     setInterval(function(){
         if(keyboard.keyDown(37)) {
@@ -40,6 +40,7 @@ define(function(require,exports){
 
         // Refresh and draw particles.
         //map.createCrater(Math.random()*1280, Math.random()*960);
+
         if (player.acceleration != 0) {
             particles.emit(player.x,player.y,player.angle-190+Math.random()*20,300,Math.random()*100+100);
         }
