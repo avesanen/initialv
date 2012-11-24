@@ -36,8 +36,8 @@ define(['jquery','exports'], function ($,exports) {
 
     Sprite.prototype.refresh = function (dt) {
         if (this.acceleration != 0) {
-            this.dx += Math.sin(this.angle) * this.acceleration * dt;
-            this.dy -= Math.cos(this.angle) * this.acceleration * dt;
+            this.dx += Math.sin(this.angle * Math.PI / 180) * this.acceleration;
+            this.dy -= Math.cos(this.angle * Math.PI / 180) * this.acceleration;
         }
         this.x += this.dx * dt;
         this.y += this.dy * dt;
@@ -45,9 +45,9 @@ define(['jquery','exports'], function ($,exports) {
 
     Sprite.prototype.draw = function() {
         ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
+        ctx.rotate(this.angle * Math.PI / 180);
         ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
-        ctx.rotate(-this.angle);
+        ctx.rotate(-(this.angle * Math.PI / 180));
         ctx.translate(-this.x, -this.y);
     };
 

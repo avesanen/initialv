@@ -27,20 +27,22 @@ define(function(require,exports){
 
     setInterval(function(){
         if(keyboard.keyDown(37)) {
-            player.angle -= 0.1;
+            player.angle -= 3;
         }
         if(keyboard.keyDown(39)) {
-            player.angle += 0.1;
+            player.angle += 3;
         }
         if(keyboard.keyDown(38)) {
-            player.acceleration = 0.0001;
+            player.acceleration = 0.003;
         } else {
             player.acceleration = 0;
         }
 
         // Refresh and draw particles.
         map.createCrater(Math.random()*1280, Math.random()*960);
-        particles.emit(player.x,player.y,Math.random()*360,10,1000);
+        if (player.acceleration != 0) {
+            particles.emit(player.x,player.y,player.angle-190+Math.random()*20,300,Math.random()*2000);
+        }
         particles.reDraw();
         sprites.reDraw();
     },1000/fps);
