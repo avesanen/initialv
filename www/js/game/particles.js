@@ -25,6 +25,7 @@ define(['jquery','exports'], function ($,exports) {
         this.dx = (speed/1000) * Math.cos(angle * Math.PI / 180);
         this.dy = -(speed/1000) * Math.sin(angle * Math.PI / 180);
         this.life = life;
+        this.startlife = life;
         this.color = [255,0,0,1.0];
     };
 

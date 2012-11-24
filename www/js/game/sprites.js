@@ -1,38 +1,70 @@
-define(['jquery','exports','require'], function ($,exports,require) {
+/**
+ * Sprite controller.
+ * Usage:
+ *  var sprites = require('./sprites');
+ *  sprites.init('#spritecanvas');
+ */
+define(['jquery','exports'], function ($,exports) {
+    var canvas = null;
+    var ctx = null;
+    var lastRefresh = new Date().getTime();
+    var spritelist = [];
 
-    // TODO: Not tested to be working yet
+    var tempImg = new Image();
+    tempImg.src = '/img/ship.png';
 
-    var imageLoader = require('./imageloader');
-
-    var loadJson = function(url) {
-        xhttp = new XMLHttpRequest();
-        xhttp.open("GET", url, false);
-        xhttp.send();
-        return JSON.parse(xhttp.responseText);
+    /**
+     * Initialize canvas with the given ID.
+     * @param canvasid ID of the canvas to init.
+     */
+    exports.init = function(canvasid) {
+        canvas = $(canvasid)[0];
+        ctx = canvas.getContext('2d');
     };
 
-    var spritelist = {};
-    var loadSprite = function(url) {
-        var images = [];
-        var sprites = loadJson(url);
-        for (var i in sprites) {
-            if (sprites.hasOwnProperty(i)) {
-                var sprite = sprites[i];
-                for (var a in sprite.animation) {
-                    if (sprite.animation.hasOwnProperty(a)) {
-                        sprite.animation[a].forEach(function(key){
-                            if(images.indexOf(key.file) === -1) {
-                                images.push(key.file);
-                            }
-                        });
-                    }
-                }
-                spritelist[i] = sprite;
-            }
+    var Sprite = function(x,y,angle,speed) {
+        this.x = x;
+        this.y = y;
+        this.dx = 0;
+        this.dy = 0;
+        this.height = 64;
+        this.width = 64;          // TODO: <-- Hardcoded
+        this.angle = angle;
+        this.acceleration = 0;
+        this.img = tempImg;
+    };
+
+    Sprite.prototype.refresh = function (dt) {
+        if (this.acceleration != 0) {
+            this.dx += Math.sin(this.angle) * this.acceleration * dt;
+            this.dy -= Math.cos(this.angle) * this.acceleration * dt;
         }
+        this.x += this.dx * dt;
+        this.y += this.dy * dt;
     };
 
-    exports.loadSprite = function(url){
-        loadSprite(url);
+    Sprite.prototype.draw = function() {
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
+        ctx.rotate(-this.angle);
+        ctx.translate(-this.x, -this.y);
+    };
+
+    exports.newSprite = function(x,y,angle,speed) {
+        var spr = new Sprite(x,y,angle,speed);
+        spritelist.push(spr);
+        return spr;
+    };
+
+    exports.reDraw = function() {
+        canvas.width = canvas.width;
+        var now = new Date().getTime();
+        var dt = now-lastRefresh;
+        for(var i = 0; i < spritelist.length;i++){
+            spritelist[i].refresh(dt);
+            spritelist[i].draw();
+        }
+        lastRefresh = now;
     };
 });
