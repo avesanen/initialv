@@ -7,7 +7,7 @@
 define(['jquery','exports'], function ($,exports) {
     var canvas = null;
     var ctx = null;
-    var lastRefresh = new Date().getTime();
+
     /**
      * Initialize canvas with the given ID.
      * @param canvasid ID of the canvas to init.
@@ -50,23 +50,29 @@ define(['jquery','exports'], function ($,exports) {
         particles.push(new Particle(x,y,angle,speed,life));
     };
 
+    exports.refresh = function(dt) {
+        for(var i = 0; i < particles.length;i++){
+            if(particles[i].life > 0) {
+                particles[i].refresh(dt);
+            } else {
+                particles.splice(i,1);
+            }
+        }
+    };
+
     /**
      * Refresh and draw particles.
      */
     exports.reDraw = function() {
         canvas.width = canvas.width;
-        var now = new Date().getTime();
-        var dt = now-lastRefresh;
         for(var i = 0; i < particles.length;i++){
             if(particles[i].life > 0) {
-                particles[i].refresh(dt);
                 particles[i].draw();
             } else {
                 // TODO: This is slow?
                 particles.splice(i,1);
             }
         }
-        lastRefresh = now;
     };
 
 });
