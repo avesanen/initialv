@@ -50,15 +50,15 @@ define(function(require){
 
         // Left arrow (turn left)
         if(keyboard.keyDown(37)) {
-            player.angle -= 4;
+            player.angle -= 0.25 * dt;
         }
         // Right arrow (turn right)
         if(keyboard.keyDown(39)) {
-            player.angle += 4;
+            player.angle += 0.25 * dt;
         }
         // Up arrow (thruster)
         if(keyboard.keyDown(38)) {
-            player.acceleration = 4;
+            player.acceleration = 0.4;
             if (!thrusting)
             {
                 sfx.playSfx("thruster");
@@ -85,7 +85,7 @@ define(function(require){
         else scrolldiv.style.top = "-" + (player.y-240) + "px";
 
         // Spacebar (shoot)
-        if(keyboard.keyDown(32) && shootTime >= 15) {
+        if(keyboard.keyDown(32) && shootTime >= 300) {
             sfx.playSfx("laser");
             bullet = sprites.newSprite("img/bullet.png", 4, 4, player.x, player.y, player.angle, 300);
 			bullet.dx += player.dx;
@@ -99,7 +99,7 @@ define(function(require){
             }
             shootTime = 0;
         }
-        shootTime++;
+        shootTime+=dt;
 
         physics.doGravity(map, sprites, dt);
 

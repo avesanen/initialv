@@ -34,8 +34,8 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
 
     Sprite.prototype.refresh = function (dt) {
         if (this.acceleration != 0) {
-            this.dx += Math.sin(this.angle * Math.PI / 180) * this.acceleration;
-            this.dy -= Math.cos(this.angle * Math.PI / 180) * this.acceleration;
+            this.dx += Math.sin(this.angle * Math.PI / 180) * this.acceleration *dt;
+            this.dy -= Math.cos(this.angle * Math.PI / 180) * this.acceleration *dt;
         }
         this.x += this.dx * dt / 1000;
         this.y += this.dy * dt / 1000;
