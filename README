@@ -18,4 +18,3 @@ have these properties.
         -ddx horizontal acceleration (pixels/second^2)
         -ddy vertical acceleration (pixels/second^2)
         -dda angle acceleration (degrees/second^2)
-        

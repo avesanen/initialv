@@ -1,4 +1,4 @@
-define(function(require,exports){
+define(function(require){
     var keyboard = require("./keyboard");
     //var gfx = require("./gfx");
     //var network = require("./network");
@@ -22,11 +22,14 @@ define(function(require,exports){
     // Init sprite engine
     sprites.init('#spritecanvas', map);
 
+    var scrolldiv = $('#scrolldiv')[0];
+
+    console.log(scrolldiv)
     physics.init();
 
     var fps = 60;
 
-    var player = sprites.newSprite(100,100,0,0);
+    var player = sprites.newSprite(300,300,0,0);
     player.onCollision = function(dt) {
         map.createCrater(this.x, this.y);
         particles.emitter(this.x, this.y, 10);
@@ -54,12 +57,12 @@ define(function(require,exports){
             player.acceleration = 0;
         }
 
-        // Refresh and draw particles.
-        //map.createCrater(Math.random()*1280, Math.random()*960);
-
         if (player.acceleration != 0) {
             particles.emit(player.x,player.y,player.angle-185+Math.random()*10,500,Math.random()*100+100);
         }
+
+        scrolldiv.style.left = "-" + (player.x-320) + "px";
+        scrolldiv.style.top = "-" + (player.y-240) + "px";
 
         particles.refresh(dt);
         particles.reDraw();
