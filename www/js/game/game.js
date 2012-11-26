@@ -61,8 +61,11 @@ define(function(require){
             particles.emit(player.x,player.y,player.angle-185+Math.random()*10,500,Math.random()*100+100);
         }
 
-        scrolldiv.style.left = "-" + (player.x-320) + "px";
-        scrolldiv.style.top = "-" + (player.y-240) + "px";
+        if (player.x+320 > 1280) scrolldiv.style.left = "-" + (1280-640) + "px";
+        else scrolldiv.style.left = "-" + (player.x-320) + "px";
+
+        if (player.y+240 > 1440) scrolldiv.style.top = "-" + (1440-480) + "px";
+        else scrolldiv.style.top = "-" + (player.y-240) + "px";
 
         particles.refresh(dt);
         particles.reDraw();
