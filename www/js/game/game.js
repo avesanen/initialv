@@ -30,8 +30,8 @@ define(function(require,exports){
     player.onCollision = function(dt) {
         map.createCrater(this.x, this.y);
         particles.emitter(this.x, this.y, 10);
-        this.x -= this.dx * dt;
-        this.y -= this.dy * dt;
+        this.x -= this.dx * dt / 1000;
+        this.y -= this.dy * dt / 1000;
         this.dx = 0;
         this.dy = 0;
     };
@@ -43,13 +43,13 @@ define(function(require,exports){
         var dt = now-lastRefresh;
 
         if(keyboard.keyDown(37)) {
-            player.angle -= 3;
+            player.angle -= 4;
         }
         if(keyboard.keyDown(39)) {
-            player.angle += 3;
+            player.angle += 4;
         }
         if(keyboard.keyDown(38)) {
-            player.acceleration = 0.003;
+            player.acceleration = 4;
         } else {
             player.acceleration = 0;
         }
@@ -58,7 +58,7 @@ define(function(require,exports){
         //map.createCrater(Math.random()*1280, Math.random()*960);
 
         if (player.acceleration != 0) {
-            particles.emit(player.x,player.y,player.angle-190+Math.random()*20,300,Math.random()*100+100);
+            particles.emit(player.x,player.y,player.angle-185+Math.random()*10,500,Math.random()*100+100);
         }
 
         particles.refresh(dt);

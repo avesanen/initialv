@@ -42,8 +42,8 @@ define(['jquery','exports'], function ($,exports) {
             this.dx += Math.sin(this.angle * Math.PI / 180) * this.acceleration;
             this.dy -= Math.cos(this.angle * Math.PI / 180) * this.acceleration;
         }
-        this.x += this.dx * dt;
-        this.y += this.dy * dt;
+        this.x += this.dx * dt / 1000;
+        this.y += this.dy * dt / 1000;
     };
 
     Sprite.prototype.draw = function() {
@@ -52,6 +52,14 @@ define(['jquery','exports'], function ($,exports) {
         ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
         ctx.rotate(-(this.angle * Math.PI / 180));
         ctx.translate(-this.x, -this.y);
+    };
+
+    Sprite.prototype.destroy = function() {
+        for(var i = 0; i < exports.spritelist.length;i++){
+            if(exports.spritelist[i] == this) {
+                exports.spritelist.splice(i,1);
+            }
+        }
     };
 
     /**
