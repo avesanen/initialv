@@ -30,7 +30,7 @@ define(function(require){
     var fps = 60;
     var shootTime = 0; // Time since last bullet shot
 
-    var player = sprites.newSprite(300,300,0,0);
+    var player = sprites.newSprite("img/small_ship.png", 32,32, 300,300,0,0);
     player.onCollision = function(dt) {
         map.createCrater(this.x, this.y);
         particles.emitter(this.x, this.y, 10);
@@ -73,11 +73,11 @@ define(function(require){
 
         // Spacebar (shoot)
         if(keyboard.keyDown(32) && shootTime >= 15) {
-            bullet = sprites.newSprite(player.x, player.y, player.angle, 300);
+            bullet = sprites.newSprite("img/bullet.png", 4, 4, player.x, player.y, player.angle, 300);
             //bullet.img.src = "img/bullet.png";
             //keyboard.releaseKey(32);
             bullet.onCollision = function() {
-                map.createCrater(this.x, this.y);
+                map.createCrater(this.x, this.y, 16);
                 sprites.spritelist.splice(sprites.spritelist.indexOf(this), 1);
             }
             shootTime = 0;

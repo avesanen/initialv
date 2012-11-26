@@ -59,8 +59,9 @@ define(['jquery','exports'], function ($,exports) {
      * Create a crater to the map
      * @param center_x
      * @param center_y
+     * @param r radius
      */
-    exports.createCrater = function(center_x, center_y) {
+    exports.createCrater = function(center_x, center_y, r) {
         /*that.ctx.fillStyle = "rgba(0,0,0,255)";
         that.ctx.beginPath();
         that.ctx.arc(center_x, center_y, 5, 0, Math.PI * 2, true);
@@ -68,7 +69,6 @@ define(['jquery','exports'], function ($,exports) {
         that.ctx.fill();*/
 
         // Draw a filled circle which just sets alpha channel to full transparency and color to black
-        r = 32;
         x = 0, y = r;
         while (x <= y)
         {

@@ -18,22 +18,21 @@ define(['jquery','exports'], function ($,exports) {
     };
 
     exports.spritelist = [];
-    var tempImg = new Image();
-    tempImg.onload = function() {
-        console.log(this.src + ": " + this.width + 'x' + this.height);
-    };
-    tempImg.src = '/img/small_ship.png';
 
-    var Sprite = function(x,y,angle,speed) {
+    var Sprite = function(filename,width,height,x,y,angle,speed) {
         this.x = x;
         this.y = y;
         this.dx = Math.sin(angle * Math.PI / 180)*speed;
         this.dy = -Math.cos(angle * Math.PI / 180)*speed;
         this.angle = angle;
         this.acceleration = 0;
-        this.height = 32;   // TODO:    F
-        this.width = 32;    // TODO: <- I
-        this.img = tempImg; // TODO:    X
+        this.height = height;
+        this.width = width;
+        this.img = new Image();
+        //this.img.onload = function() {
+        //    console.log(this.src + ": " + this.width + 'x' + this.height);
+        //};
+        this.img.src = filename;
         console.log(this.width, this.height);
     };
 
@@ -70,8 +69,8 @@ define(['jquery','exports'], function ($,exports) {
      * @param speed
      * @return {Sprite}
      */
-    exports.newSprite = function(x,y,angle,speed) {
-        var spr = new Sprite(x,y,angle,speed);
+    exports.newSprite = function(filename,width,height,x,y,angle,speed) {
+        var spr = new Sprite(filename,width,height,x,y,angle,speed);
         this.spritelist.push(spr);
         return spr;
     };
