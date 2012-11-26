@@ -5,13 +5,17 @@
     <script data-main="js/app.js" src="js/require.js"></script>
 </head>
 <body>
-<div style="position: relative; border-style: solid; border-width: 1px; width: 1280px; height: 720px; background: url('img/background.jpg')">
- <div>
-  <canvas id="mapcanvas" width="1280" height="720" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-  <canvas id="particlecanvas" width="1280" height="720" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-  <canvas id="spritecanvas" width="1280" height="720" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+<h1>InitialV</h1>
+<div style="position: relative; border-style: solid; border-width: 1px; width: 640px; height: 480px; overflow: hidden;background: url('img/background.jpg')">
+ <div id="scrolldiv" style="position: absolute;left:0;top:0">
+     <div style="position:relative">
+     <canvas id="mapcanvas" width="1280" height="1440" style="position:absolute"></canvas>
+     <canvas id="particlecanvas" width="1280" height="1440" style="position:absolute"></canvas>
+     <canvas id="spritecanvas" width="1280" height="1440" style="position:absolute"></canvas>
+     </div>
  </div>
 </div>
+Press up to accelerate, left and right to turn.
 
 </body>
 

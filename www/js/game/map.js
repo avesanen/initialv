@@ -90,13 +90,15 @@ define(['jquery','exports'], function ($,exports) {
      * @returns true or false
      */
     exports.getMapCollision = function(x, y) {
+        if(x<0 || y<0 || x>that.canvas.width || y>that.canvas.height) return true;
         pixel = that.ctx.getImageData(x, y, 1, 1);
         // data has 4 indexes - R, G, B, A
         //console.log('RGBA = '+pixel.data[0]+', '+pixel.data[1]+', '+pixel.data[2]+', '+pixel.data[3]);
         // If pixel is not transparent and it's not black then it is wall
-        if ((pixel.data[3]>0) && ((pixel.data[2]>0) || (pixel.data[1]>0) || (pixel.data[0]>0)))
+        if ((pixel.data[3]>0) && ((pixel.data[2]>0) || (pixel.data[1]>0) || (pixel.data[0]>0))) {
             return true;
-        else
+        } else {
             return false;
+        }
     };
 });
