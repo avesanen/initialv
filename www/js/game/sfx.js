@@ -20,7 +20,10 @@ define(['jquery','exports'], function ($,exports) {
 
         // Load all sound effects
         this.sfx = new Array();
-        this.sfx[0] = new Audio("audio/sfx" + this.useExt);
+        this.sfx["thruster"] = new Audio("audio/thruster" + this.useExt); // Sound of thrusting with up arrow
+        this.sfx["laser"] = new Audio("audio/laser" + this.useExt); // Sound of shooting with spacebar
+        this.sfx["ground_hit"] = new Audio("audio/ground_hit" + this.useExt); // A bullet hits ground
+        this.sfx["ship_hit"] = new Audio("audio/ship_hit" + this.useExt); // A ship hits with something
     };
 
     /**
@@ -51,11 +54,20 @@ define(['jquery','exports'], function ($,exports) {
      * @param number Index of the sound effect
      */
     exports.playSfx = function(number) {
+        console.log("playing sfx: "+number);
         if (this.sfx[number].currentTime > 0)
         {
             this.sfx[number].pause();
             this.sfx[number].currentTime=0;
         }
         this.sfx[number].play();
+    }
+
+    /**
+     * Stop playing a preloaded sound effect
+     * @param number
+     */
+    exports.stopSfx = function(number) {
+        this.sfx[number].pause();
     }
 });

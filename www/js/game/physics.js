@@ -25,5 +25,17 @@ define(['jquery','exports'], function ($,exports) {
         }
     };
 
+    exports.doGravity = function(map, sprites, dt)
+    {
+        var colList = sprites.spritelist;
+        for(var i = 0; i < colList.length;i++){
+            // A hack to apply gravity only when the ship is not already stuck or totally still
+            // Works because the ship's dy is never exactly 0.00000000000000000 normally :)
+            if (sprites.spritelist[i].dy != 0) {
+                sprites.spritelist[i].dy += map.gravityConstant * dt;
+            }
+        }
+    }
+
 
 });
