@@ -3,6 +3,7 @@ define(['jquery','exports'], function ($,exports) {
     function onKeyboard(e) {
         if(e.type == "keydown") {
             if(!keyStates[e.keyCode]) {
+                console.log("Key pressed: "+ e.keyCode);
                 keyStates[e.keyCode] = true;
             }
         }
@@ -21,6 +22,11 @@ define(['jquery','exports'], function ($,exports) {
         onKeyboard(e);
     });
 
+    /**
+     * Return true if a key is being held down at the moment
+     * @param key keycode
+     * @return {Boolean}
+     */
     exports.keyDown = function(key) {
         if (keyStates[key]){
             return true;
@@ -28,4 +34,12 @@ define(['jquery','exports'], function ($,exports) {
             return false;
         }
     };
+
+    /**
+     * "Release" a key, so that user has to press it again to have it true
+     * @param key keycode
+     */
+    exports.releaseKey = function(key) {
+        keyStates[key]=false;
+    }
 });

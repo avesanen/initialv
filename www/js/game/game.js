@@ -28,6 +28,7 @@ define(function(require){
     physics.init();
 
     var fps = 60;
+    var shootTime = 0; // Time since last bullet shot
 
     var player = sprites.newSprite(300,300,0,0);
     player.onCollision = function(dt) {
@@ -45,12 +46,15 @@ define(function(require){
         var now = new Date().getTime();
         var dt = now-lastRefresh;
 
+        // Left arrow (turn left)
         if(keyboard.keyDown(37)) {
             player.angle -= 4;
         }
+        // Right arrow (turn right)
         if(keyboard.keyDown(39)) {
             player.angle += 4;
         }
+        // Up arrow (thruster)
         if(keyboard.keyDown(38)) {
             player.acceleration = 4;
         } else {
@@ -66,6 +70,19 @@ define(function(require){
 
         if (player.y+240 > 1440) scrolldiv.style.top = "-" + (1440-480) + "px";
         else scrolldiv.style.top = "-" + (player.y-240) + "px";
+
+        // Spacebar (shoot)
+        if(keyboard.keyDown(32) && shootTime >= 15) {
+            bullet = sprites.newSprite(player.x, player.y, player.angle, 300);
+            //bullet.img.src = "img/bullet.png";
+            //keyboard.releaseKey(32);
+            bullet.onCollision = function() {
+                map.createCrater(this.x, this.y);
+                sprites.spritelist.splice(sprites.spritelist.indexOf(this), 1);
+            }
+            shootTime = 0;
+        }
+        shootTime++;
 
         particles.refresh(dt);
         particles.reDraw();

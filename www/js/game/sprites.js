@@ -27,8 +27,8 @@ define(['jquery','exports'], function ($,exports) {
     var Sprite = function(x,y,angle,speed) {
         this.x = x;
         this.y = y;
-        this.dx = 0;
-        this.dy = 0;
+        this.dx = Math.sin(angle * Math.PI / 180)*speed;
+        this.dy = -Math.cos(angle * Math.PI / 180)*speed;
         this.angle = angle;
         this.acceleration = 0;
         this.height = 32;   // TODO:    F
@@ -95,5 +95,13 @@ define(['jquery','exports'], function ($,exports) {
             this.spritelist[i].draw();
         }
     };
+
+    /**
+     * Get total positive speed of the sprite itself
+     * @return {Number}
+     */
+    Sprite.prototype.getSpeed = function() {
+        return Math.abs(this.dx)+Math.abs(this.dy);
+    }
 
 });
