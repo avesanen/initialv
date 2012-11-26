@@ -1,12 +1,18 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <title>index</title>
     <script data-main="js/app.js" src="js/require.js"></script>
+	<link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
-<h1>InitialV</h1>
-<div style="position: relative; border-style: solid; border-width: 1px; width: 640px; height: 480px; overflow: hidden;background: url('img/background.jpg')">
+
+<div id="container">
+
+<h1 class="title">InitialV</h1>
+<div id="maskdiv">
  <div id="scrolldiv" style="position: absolute;left:0;top:0">
      <div style="position:relative">
      <canvas id="mapcanvas" width="1280" height="1440" style="position:absolute"></canvas>
@@ -15,7 +21,9 @@
      </div>
  </div>
 </div>
-Press up to accelerate, left and right to turn and spacebar to shoot.
+<div id="helpdiv">Press up to accelerate, left and right to turn and spacebar to shoot.</div>
+
+</div>
 
 </body>
 

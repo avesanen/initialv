@@ -1,0 +1,55 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+@import url(http://fonts.googleapis.com/css?family=Audiowide);
+
+html, body, form, fieldset {
+    margin:0;
+    padding:0;
+	margin-top: 50px;
+    font-size: 13px;
+	line-height: 20px;
+    font-family: 'Ubuntu', Geneva, sans-serif;
+	/*background-image:url('pics/bg1.png');*/
+	background-color: #232323; 
+    background-repeat: repeat-x;
+	
+	color: #eeeeee;
+	}
+
+#container{
+	width: 800px;
+	height: 600px;
+	margin-left: auto;
+    margin-right: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	
+	padding: 15px;
+	
+	background-color: #121212;
+
+}
+
+#maskdiv{
+	margin-left: auto;
+    margin-right: auto;
+	
+	position: relative; 
+	width: 640px; 
+	height: 480px; 
+	overflow: hidden;
+	background-image:url('/img/background.jpg');
+}
+
+#helpdiv{
+	margin-left: 60px;
+	padding: 20px;
+}
+
+h1.title{
+	margin-left: 80px;
+	font-family: 'Audiowide', cursive;
+	color: #8445bb;
+}
+
+
+
