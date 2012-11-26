@@ -74,6 +74,8 @@ define(function(require){
         // Spacebar (shoot)
         if(keyboard.keyDown(32) && shootTime >= 15) {
             bullet = sprites.newSprite("img/bullet.png", 4, 4, player.x, player.y, player.angle, 300);
+			bullet.dx += player.dx;
+			bullet.dy += player.dy;
             //bullet.img.src = "img/bullet.png";
             //keyboard.releaseKey(32);
             bullet.onCollision = function() {

@@ -1,10 +1,9 @@
 define(['jquery','exports'], function ($,exports) {
 
     // TODO: Not tested to be working yet
-
+	var buffer = {};
     exports.imageLoader = function(images,callback) {
         var that = this;
-        this.buffer = {};
         if(!images.length) {
             callback(that.buffer);
         }
@@ -24,4 +23,15 @@ define(['jquery','exports'], function ($,exports) {
         };
         img.src = url;
     };
+	
+	exports.getImage = function(image) {
+		if (buffer[image]) {
+			return buffer[image];
+		} else {
+			var img = new Image();
+			buffer[image] = img;
+			img.src = image;
+			return img;
+		}
+	};
 });

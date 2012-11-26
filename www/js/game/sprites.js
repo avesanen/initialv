@@ -4,10 +4,10 @@
  *  var sprites = require('./sprites');
  *  sprites.init('#spritecanvas');
  */
-define(['jquery','exports'], function ($,exports) {
+define(['jquery','exports', 'require','./imageloader'], function ($,exports,require,imageloader) {
     var canvas = null;
     var ctx = null;
-
+	
     /**
      * Initialize canvas with the given ID.
      * @param canvasid ID of the canvas to init.
@@ -28,11 +28,7 @@ define(['jquery','exports'], function ($,exports) {
         this.acceleration = 0;
         this.height = height;
         this.width = width;
-        this.img = new Image();
-        //this.img.onload = function() {
-        //    console.log(this.src + ": " + this.width + 'x' + this.height);
-        //};
-        this.img.src = filename;
+        this.img = imageloader.getImage(filename);
         console.log(this.width, this.height);
     };
 
@@ -102,5 +98,6 @@ define(['jquery','exports'], function ($,exports) {
     Sprite.prototype.getSpeed = function() {
         return Math.abs(this.dx)+Math.abs(this.dy);
     }
+	
 
 });
