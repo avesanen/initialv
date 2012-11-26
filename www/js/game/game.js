@@ -101,6 +101,8 @@ define(function(require){
         }
         shootTime++;
 
+        physics.doGravity(map, sprites, dt);
+
         particles.refresh(dt);
         particles.reDraw();
 

@@ -10,6 +10,7 @@ define(['jquery','exports'], function ($,exports) {
     var ctx;
     var width = 2000;
     var height = 2000;
+    this.gravityConstant = 0.0981; // TODO: from JSON
     var that=this;
 
     /**
