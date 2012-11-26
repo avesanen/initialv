@@ -1,17 +1,21 @@
 InitialV
 --------
 
-Started on 19.11.2012 13:19
+To help networking not fall out of sync, let's implement all game objects to
+have these properties.
 
-TODO:
- Change all moving objects ( sprites and particles ) to have and use these varialbes:
+    Position:
+        -x   horizontal position (pixels)
+        -y   vertical position (pixels)
+        -a   angle (degrees)
 
-  x     x-coordinate
-  y     y-coordinate
-  a     angle
-  v     velocity
+    Velocity
+        -dx  horizontal velocity (pixels/second)
+        -dy  horizontal velocity (pixels/second)
+        -da  angle velocity (degrees/second)
 
-  dx    change of x / s
-  dy    change of y / s
-  da    change of a / s
-  dv    change of v / s
+    Acceleration
+        -ddx horizontal acceleration (pixels/second^2)
+        -ddy vertical acceleration (pixels/second^2)
+        -dda angle acceleration (degrees/second^2)
+        
