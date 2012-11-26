@@ -4,7 +4,7 @@
 html, body, form, fieldset {
     margin:0;
     padding:0;
-	margin-top: 50px;
+	margin-top: 25px;
     font-size: 13px;
 	line-height: 20px;
     font-family: 'Ubuntu', Geneva, sans-serif;
@@ -13,18 +13,20 @@ html, body, form, fieldset {
     background-repeat: repeat-x;
 	
 	color: #eeeeee;
+	
 	}
 
 #container{
-	width: 800px;
-	height: 600px;
+	width: 820px;
+	height: 780px;
 	margin-left: auto;
     margin-right: auto;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	padding:5px;
 	
-	padding: 15px;
-	
+	background-image: url('/img/ohjaamol.png');
+	background-repeat: no-repeat; 
 	background-color: #121212;
 
 }
@@ -38,15 +40,22 @@ html, body, form, fieldset {
 	height: 480px; 
 	overflow: hidden;
 	background-image:url('/img/background.jpg');
+	background-position: bottom;
 }
 
 #helpdiv{
-	margin-left: 60px;
-	padding: 20px;
+	margin-left: 230px;
+	padding-top: 40px;
+	font-family: 'Audiowide', cursive;
+	font-size: 14px;
+	color: #32b0bf;
 }
 
 h1.title{
-	margin-left: 80px;
+	margin-left: 100px;
+	margin-bottom: 40px;
+	padding-top:20px;
+	font-size: 30px;
 	font-family: 'Audiowide', cursive;
 	color: #8445bb;
 }
