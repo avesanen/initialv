@@ -22,7 +22,7 @@ define(['jquery','exports'], function ($,exports) {
     tempImg.onload = function() {
         console.log(this.src + ": " + this.width + 'x' + this.height);
     };
-    tempImg.src = '/img/ship.png';
+    tempImg.src = '/img/small_ship.png';
 
     var Sprite = function(x,y,angle,speed) {
         this.x = x;
@@ -31,8 +31,8 @@ define(['jquery','exports'], function ($,exports) {
         this.dy = 0;
         this.angle = angle;
         this.acceleration = 0;
-        this.height = 64;   // TODO:    F
-        this.width = 64;    // TODO: <- I
+        this.height = 32;   // TODO:    F
+        this.width = 32;    // TODO: <- I
         this.img = tempImg; // TODO:    X
         console.log(this.width, this.height);
     };
