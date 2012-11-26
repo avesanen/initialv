@@ -3,3 +3,15 @@ InitialV
 
 Started on 19.11.2012 13:19
 
+TODO:
+ Change all moving objects ( sprites and particles ) to have and use these varialbes:
+
+  x     x-coordinate
+  y     y-coordinate
+  a     angle
+  v     velocity
+
+  dx    change of x / s
+  dy    change of y / s
+  da    change of a / s
+  dv    change of v / s
