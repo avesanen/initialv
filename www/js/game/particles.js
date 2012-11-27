@@ -30,13 +30,11 @@ define(['jquery','exports'], function ($,exports) {
     };
 
     var lerpA = function(p, A, B){
-        var res=[]; // fresh array to hold the result color
-        // loop as many times as there are components in A
+        var res=[];
         for(var i=0; i<A.length; i++){
-            // lerp same component from each color
             res[i]=lerp(p, A[i], B[i]);
         }
-        return res; // return the result color as an array
+        return res;
     };
 
     var particles = [];
@@ -44,15 +42,19 @@ define(['jquery','exports'], function ($,exports) {
     var Particle = function(x,y,angle,speed,life){
         this.x = x;
         this.y = y;
-        this.dx = speed * Math.sin(angle * Math.PI / 180);
-        this.dy = -speed * Math.cos(angle * Math.PI / 180);
+        this.startspeed = speed;
+        this.endspeed = speed/10;
+
+        this.startangle = angle;
+        this.endangle = angle+Math.random()*360-180;
+
         this.life = life;
         this.startlife = this.life;
-        this.size = 0;
+        this.size = 1;
         this.startsize = this.size;
-        this.endsize = this.size + 10;
+        this.endsize = this.size+40;
 
-        this.color = [255,0,0,255];
+        this.color = [255,255,255,128];
         this.startcolor = this.color;
         this.endcolor = [0,0,0,0.1];
 
@@ -61,8 +63,10 @@ define(['jquery','exports'], function ($,exports) {
 
     Particle.prototype.refresh = function(dt) {
         this.life -= dt;
-        this.x += this.dx * dt / 1000;
-        this.y += this.dy * dt / 1000;
+        var speed = lerp(this.life/this.startlife, this.endspeed, this.startspeed);
+        var angle = lerp(this.life/this.startlife, this.endangle, this.startangle);
+        this.x += speed * Math.sin(angle * Math.PI / 180) * dt / 1000;
+        this.y += -speed * Math.cos(angle * Math.PI / 180) * dt / 1000;
         this.size = lerp(this.life/this.startlife, this.endsize, this.startsize);
         this.color = lerpA(this.life/this.startlife, this.endcolor, this.startcolor);
     };
