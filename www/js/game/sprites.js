@@ -42,6 +42,7 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
         this.img = imageloader.getImage(filename);
         this.tag = tag;
         this.hp = 100; // 100% health at the beginning
+        this.visible = true; // sprite is visible by default
         console.log(this.width, this.height);
     };
 
@@ -55,6 +56,7 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
     };
 
     Sprite.prototype.draw = function() {
+        if (!this.visible) return;
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle * Math.PI / 180);
         ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);

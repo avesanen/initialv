@@ -11,7 +11,7 @@ html, body, form, fieldset {
 	/*background-image:url('pics/bg1.png');*/
 	background-color: #232323; 
     background-repeat: repeat-x;
-	
+	overflow: hidden;
 	color: #eeeeee;
 	
 	}
@@ -49,6 +49,15 @@ html, body, form, fieldset {
 	font-family: 'Audiowide', cursive;
 	font-size: 14px;
 	color: #32b0bf;
+}
+
+#statusdiv{
+    margin-left: 450px;
+    /* TODO: How to get higher? */
+    padding-top: 0px;
+    font-family: 'Audiowide', cursive;
+    font-size: 14px;
+    color: #32b0bf;
 }
 
 h1.title{

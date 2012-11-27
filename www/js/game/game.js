@@ -56,8 +56,7 @@ define(function(require){
         if (this.hp <= 0)
         {
             particles.emitter(this.x, this.y, 100);
-            //sprites.removeSprite(this);
-            this.img.src = "";
+            this.visible = false;
             sfx.playSfx("explosion");
             sfx.stopSfx("thruster");
         }
@@ -135,7 +134,13 @@ define(function(require){
         sprites.checkCollision(dt);
         sprites.reDraw();
 
+        // Update status bar
+        $("div#statusdiv").text("Integrity: " + player.hp + "%");
+
         lastRefresh = now;
+
+
+
     },1000/fps);
 
 });
