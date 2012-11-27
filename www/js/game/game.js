@@ -12,15 +12,30 @@ define(function(require){
     sfx.init();
     //sfx.playBgm("bgm");
 
+    // Init sprite engine
+    sprites.init('#spritecanvas', map);
+
     // Init and load map
     map.init("#mapcanvas");
     map.loadMap("img/testmap.png");
 
+    var dock = sprites.newSprite("img/dock.png", 48, 16, 600, 305, 0, 0, "dock");
+    dock.onCollision = function(dt, target)
+    {
+        if (target.tag == "ship") {
+            console.log("docked");
+            //target.dx = 0;
+            //target.dy = 0;
+            //target.angle = 0;
+            //target.acceleration = 0;
+            //target.x = this.x;
+            //target.y = this.y-15;
+            target.docked = true;
+        }
+    }
+
     // Init particle engine.
     particles.init('#particlecanvas');
-
-    // Init sprite engine
-    sprites.init('#spritecanvas', map);
 
     var scrolldiv = $('#scrolldiv')[0];
 
@@ -36,13 +51,20 @@ define(function(require){
         // Collided with another ship or the map
         if ((target.tag == "ship") || (target.tag == "map"))
         {
-            particles.emitter(this.x, this.y, 10);
             this.x -= this.dx * dt / 1000;
             this.y -= this.dy * dt / 1000;
             this.dx = 0;
             this.dy = 0;
-            sfx.playSfx("ship_hit");
-            this.hp -= 5;
+            if (this.docked)
+            {
+                //this.angle = 0;
+            }
+            else
+            {
+                particles.emitter(this.x, this.y, 10);
+                sfx.playSfx("ship_hit");
+                this.hp -= 5;
+            }
         }
         // Collided with a bullet
         else if (target.tag == "bullet")
@@ -59,6 +81,7 @@ define(function(require){
             this.visible = false;
             sfx.playSfx("explosion");
             sfx.stopSfx("thruster");
+            map.createCrater(this.x, this.y, 100);
         }
     };
 
@@ -131,11 +154,18 @@ define(function(require){
         sprites.refresh(dt);
 
         physics.checkCollision(map, sprites, dt);
+        player.docked = false; // docking information not needed after map collision check - allow for new check
         sprites.checkCollision(dt);
         sprites.reDraw();
 
+        // Increase player's health, if docked, not dead and not at max
+        if (player.docked && player.hp > 0 && player.hp < 100)
+        {
+            player.hp += dt * 0.005;
+        }
+
         // Update status bar
-        $("div#statusdiv").text("Integrity: " + player.hp + "%");
+        $("div#statusdiv").text("Integrity: " + Math.round(player.hp) + "%");
 
         lastRefresh = now;
 

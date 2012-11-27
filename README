@@ -24,7 +24,8 @@ have these properties.
 A list of features not yet implemented, but would be nice some day:
 
 [ ] plasma clouds, nebulas or generally stuff on the map where you can hide. new canvas?
-[ ] bullets will hit own ship and other ships -> hitpoints, death and respawn
+[x] bullets will hit own ship and other ships -> hitpoints, death
+[ ] respawn and lives?
 [ ] docks on the ground, where ship can be recharged
 [ ] special weapon in another key, for example a bomb that splits to many bullets
 [ ] return of the network game
