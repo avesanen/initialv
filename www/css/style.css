@@ -44,20 +44,28 @@ html, body, form, fieldset {
 }
 
 #helpdiv{
+	width:170px;
 	margin-left: 230px;
 	padding-top: 40px;
 	font-family: 'Audiowide', cursive;
 	font-size: 14px;
 	color: #32b0bf;
+	float: left;
 }
 
 #statusdiv{
-    margin-left: 450px;
     /* TODO: How to get higher? */
-    padding-top: 0px;
+	width: 170px;
+	padding-top: 40px;
+	margin-right: 200px;
     font-family: 'Audiowide', cursive;
     font-size: 14px;
     color: #32b0bf;
+
+	float: right;
+	text-align: left;
+	
+	clear:both;
 }
 
 h1.title{
