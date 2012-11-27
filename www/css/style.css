@@ -18,16 +18,16 @@ html, body, form, fieldset {
 
 #container{
 	width: 820px;
-	height: 780px;
 	margin-left: auto;
     margin-right: auto;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	padding:5px;
 	
-	background-image: url('/img/ohjaamol.png');
-	background-repeat: no-repeat; 
 	background-color: #121212;
+	background-image:url('/img/tile.png');
+
+	-moz-border-radius: 40px;
+	border-radius: 40px;
 
 }
 
@@ -39,14 +39,30 @@ html, body, form, fieldset {
 	width: 640px; 
 	height: 480px; 
 	overflow: hidden;
+	
 	background-image:url('/img/background.jpg');
 	background-position: bottom;
+	background-repeat: no-repeat; 
+}
+
+#hud{
+	width: 820px;
+	height: 175px;
+	
+	margin-top: 5px;
+	
+	background-image: url('/img/ohjaamol.png');
+	background-repeat: no-repeat;
+	background-color: #090909;
+	
+	-moz-border-radius: 40px;
+	border-radius: 40px;
 }
 
 #helpdiv{
 	width:170px;
 	margin-left: 230px;
-	padding-top: 40px;
+	padding-top: 20px;
 	font-family: 'Audiowide', cursive;
 	font-size: 14px;
 	color: #32b0bf;
@@ -55,7 +71,7 @@ html, body, form, fieldset {
 
 #statusdiv{
 	width: 170px;
-	padding-top: 40px;
+	padding-top: 20px;
 	margin-right: 200px;
     font-family: 'Audiowide', cursive;
     font-size: 14px;
@@ -67,8 +83,8 @@ html, body, form, fieldset {
 
 h1.title{
 	margin-left: 100px;
-	margin-bottom: 40px;
-	padding-top:20px;
+	margin-bottom: 25px;
+	padding-top:25px;
 	font-size: 30px;
 	font-family: 'Audiowide', cursive;
 	color: #8445bb;
