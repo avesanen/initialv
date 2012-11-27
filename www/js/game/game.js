@@ -118,7 +118,7 @@ define(function(require){
         }
 
         if (player.acceleration != 0) {
-            particles.emit(player.x,player.y,player.angle-185+Math.random()*10,500,Math.random()*100+100);
+            particles.emit(player.x,player.y,player.angle-185+Math.random()*10,100,Math.random()*100+1000);
         }
 
         if (player.x+320 > 1280) scrolldiv.style.left = "-" + (1280-640) + "px";
