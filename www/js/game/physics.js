@@ -15,16 +15,27 @@ define(['jquery','exports'], function ($,exports) {
      * @param sprites sprites
      */
     exports.checkCollision = function(map, sprites, dt) {
-        var colList = sprites.spritelist;
+        // A target of collision which simply identifies as the map
+        var mapTarget = new Object();
+        mapTarget.tag = "map";
+
+        // Work on a copy of the sprite list because onCollision events might modify the real list
+        var colList = sprites.spritelist.slice(0);
         for(var i = 0; i < colList.length;i++){
-            if (sprites.spritelist[i].onCollision) {
-                if(map.getMapCollision(sprites.spritelist[i].x, sprites.spritelist[i].y)) {
-                    sprites.spritelist[i].onCollision(dt);
+            if (colList[i].onCollision) {
+                if(map.getMapCollision(colList[i].x, colList[i].y)) {
+                    colList[i].onCollision(dt, mapTarget);
                 }
             }
         }
     };
 
+    /**
+     * Gravity calculations
+     * @param map
+     * @param sprites
+     * @param dt
+     */
     exports.doGravity = function(map, sprites, dt)
     {
         var colList = sprites.spritelist;
@@ -35,7 +46,23 @@ define(['jquery','exports'], function ($,exports) {
                 sprites.spritelist[i].dy += map.gravityConstant * dt;
             }
         }
+        //TODO: add support for point-like gravitation too
     }
 
-
+    /**
+     * Calculate new coordinates from a coordinate when some distance and angle is applied
+     * (Nice for positioning new bullets outside the ship)
+     * @param x
+     * @param y
+     * @param angle
+     * @param distance
+     * @return {*} Array of (x,y)
+     */
+    exports.coordFromAngleDistance = function(x, y, angle, distance)
+    {
+        res = Array();
+        res[0] = x + Math.sin(angle * Math.PI / 180) * distance;
+        res[1] = y - Math.cos(angle * Math.PI / 180) * distance;
+        return res;
+    }
 });

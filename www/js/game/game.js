@@ -10,7 +10,7 @@ define(function(require){
 
     // Init sound and start music.
     sfx.init();
-    sfx.playBgm("bgm");
+    //sfx.playBgm("bgm");
 
     // Init and load map
     map.init("#mapcanvas");
@@ -31,15 +31,36 @@ define(function(require){
     var shootTime = 0; // Time since last bullet shot
     var thrusting = false; // Helps with thrust sfx to play only once
 
-    var player = sprites.newSprite("img/small_ship.png", 32,32, 300,300,0,0);
-    player.onCollision = function(dt) {
-        map.createCrater(this.x, this.y);
-        particles.emitter(this.x, this.y, 10);
-        this.x -= this.dx * dt / 1000;
-        this.y -= this.dy * dt / 1000;
-        this.dx = 0;
-        this.dy = 0;
-        sfx.playSfx("ship_hit");
+    var player = sprites.newSprite("img/small_ship.png", 32,32, 300,300, 0,0, "ship");
+    player.onCollision = function(dt,target) {
+        // Collided with another ship or the map
+        if ((target.tag == "ship") || (target.tag == "map"))
+        {
+            particles.emitter(this.x, this.y, 10);
+            this.x -= this.dx * dt / 1000;
+            this.y -= this.dy * dt / 1000;
+            this.dx = 0;
+            this.dy = 0;
+            sfx.playSfx("ship_hit");
+            this.hp -= 5;
+        }
+        // Collided with a bullet
+        else if (target.tag == "bullet")
+        {
+            sprites.removeSprite(target); // remove bullet that hit the ship
+            particles.emitter(this.x, this.y, 10);
+            sfx.playSfx("ship_hit");
+            this.hp -= 20;
+        }
+        // Died
+        if (this.hp <= 0)
+        {
+            particles.emitter(this.x, this.y, 100);
+            //sprites.removeSprite(this);
+            this.img.src = "";
+            sfx.playSfx("explosion");
+            sfx.stopSfx("thruster");
+        }
     };
 
     var lastRefresh = new Date().getTime();
@@ -57,7 +78,7 @@ define(function(require){
             player.angle += 0.25 * dt;
         }
         // Up arrow (thruster)
-        if(keyboard.keyDown(38)) {
+        if(keyboard.keyDown(38) && player.hp > 0) {
             player.acceleration = 0.4;
             if (!thrusting)
             {
@@ -85,17 +106,19 @@ define(function(require){
         else scrolldiv.style.top = "-" + (player.y-240) + "px";
 
         // Spacebar (shoot)
-        if(keyboard.keyDown(32) && shootTime >= 300) {
+        if(keyboard.keyDown(32) && (shootTime >= 300) && (player.hp > 0)) {
             sfx.playSfx("laser");
-            bullet = sprites.newSprite("img/bullet.png", 4, 4, player.x, player.y, player.angle, 300);
+            bulletCoords = physics.coordFromAngleDistance(player.x, player.y, player.angle, player.height);
+            bullet = sprites.newSprite("img/bullet.png", 4, 4, bulletCoords[0], bulletCoords[1], player.angle, 300, "bullet");
 			bullet.dx += player.dx;
 			bullet.dy += player.dy;
-            //bullet.img.src = "img/bullet.png";
-            //keyboard.releaseKey(32);
-            bullet.onCollision = function() {
-                map.createCrater(this.x, this.y, 16);
-                sprites.spritelist.splice(sprites.spritelist.indexOf(this), 1);
-                sfx.playSfx("ground_hit");
+            bullet.onCollision = function(dt,target) {
+                if (target.tag == "map")
+                {
+                    map.createCrater(this.x, this.y, 16);
+                    sprites.removeSprite(this); // remove bullet
+                    sfx.playSfx("ground_hit");
+                }
             }
             shootTime = 0;
         }
@@ -109,6 +132,7 @@ define(function(require){
         sprites.refresh(dt);
 
         physics.checkCollision(map, sprites, dt);
+        sprites.checkCollision(dt);
         sprites.reDraw();
 
         lastRefresh = now;

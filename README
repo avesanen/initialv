@@ -18,3 +18,19 @@ have these properties.
         -ddx horizontal acceleration (pixels/second^2)
         -ddy vertical acceleration (pixels/second^2)
         -dda angle acceleration (degrees/second^2)
+
+
+
+A list of features not yet implemented, but would be nice some day:
+
+[ ] plasma clouds, nebulas or generally stuff on the map where you can hide. new canvas?
+[ ] bullets will hit own ship and other ships -> hitpoints, death and respawn
+[ ] docks on the ground, where ship can be recharged
+[ ] special weapon in another key, for example a bomb that splits to many bullets
+[ ] return of the network game
+[ ] design some way for players to choose map, start game and the game to end
+    Choice 1: one player chooses "host game", gets url to clipboard. when pasted in chats to other players,
+    they can join that game with that url till host launches it
+    Choice 2: a full blown lobby, like in some other games
+[ ] use json for defining map, sprites and sound lists
+[ ] a loading screen which goes off only when all images and sounds are loaded
