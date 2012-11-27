@@ -18,15 +18,16 @@ define(['jquery','exports'], function ($,exports) {
     };
 
     var toCss = function(A) {
-        for(var i=0;i< A.length;i++){
+        for(var i=0;i<3;i++){
             A[i]=Math.round(A[i]);
         }
+        A[3]/=255;
         return "rgba("+ A.join()+")";
-    }
+    };
 
     var lerp = function(p, a, b){
         return Number(a)+(b-a)*p;
-    }
+    };
 
     var lerpA = function(p, A, B){
         var res=[]; // fresh array to hold the result color
@@ -36,7 +37,7 @@ define(['jquery','exports'], function ($,exports) {
             res[i]=lerp(p, A[i], B[i]);
         }
         return res; // return the result color as an array
-    }
+    };
 
     var particles = [];
 
