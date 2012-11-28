@@ -25,6 +25,8 @@ define(['jquery','exports'], function ($,exports) {
         this.sfx["ground_hit"] = new Audio("audio/ground_hit" + this.useExt); // A bullet hits ground
         this.sfx["ship_hit"] = new Audio("audio/ship_hit" + this.useExt); // A ship hits with something
         this.sfx["explosion"] = new Audio("audio/explosion" + this.useExt); // A ship explodes
+        this.sfx["bomb_shoot"] = new Audio("audio/bomb_shoot" + this.useExt); // A bomb is shot
+        this.sfx["bomb_explode"] = new Audio("audio/explosion" + this.useExt); // A bomb explodes
     };
 
     /**
