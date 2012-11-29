@@ -46,7 +46,7 @@ define(function(require){
     var shootTime = 0; // Time since last bullet shot
     var thrusting = false; // Helps with thrust sfx to play only once
 
-    var player = sprites.newSprite("img/small_ship.png", 32,32, 300,300, 0,0, "ship");
+    var player = sprites.newSprite("img/small_ship.png", 32,32, 600,300, 0,0, "ship");
     player.onCollision = function(dt,target) {
         // Collided with another ship or the map
         if ((target.tag == "ship") || (target.tag == "map"))
