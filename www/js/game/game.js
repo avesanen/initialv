@@ -47,9 +47,6 @@ define(function(require){
     var bombShootTime = 0;
     var thrusting = false; // Helps with thrust sfx to play only once
 
-<<<<<<< HEAD
-    var player = sprites.newSprite("img/small_ship.png", 32,32, 600,300, 0,0, "ship");
-=======
     /**
      * A function for creating bullet sprite with just few parameters
      * @param x where to launch from
@@ -74,8 +71,7 @@ define(function(require){
         }
     };
 
-    var player = sprites.newSprite("img/small_ship.png", 32,32, 300,300, 0,0, "ship");
->>>>>>> 354093c2f962a56b13d32a58ae43a4124fc571d8
+    var player = sprites.newSprite("img/small_ship.png", 32,32, 600,300, 0,0, "ship");
     player.onCollision = function(dt,target) {
         // Collided with another ship or the map
         if ((target.tag == "ship") || (target.tag == "map"))
