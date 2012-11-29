@@ -44,9 +44,38 @@ define(function(require){
 
     var fps = 60;
     var shootTime = 0; // Time since last bullet shot
+    var bombShootTime = 0;
     var thrusting = false; // Helps with thrust sfx to play only once
 
+<<<<<<< HEAD
     var player = sprites.newSprite("img/small_ship.png", 32,32, 600,300, 0,0, "ship");
+=======
+    /**
+     * A function for creating bullet sprite with just few parameters
+     * @param x where to launch from
+     * @param y
+     * @param dx additional delta
+     * @param dy
+     * @param angle angle of bullet
+     * @param height how far will the bullet be from x,y initially
+     */
+    createBullet = function(x, y, dx, dy, angle, height) {
+        bulletCoords = physics.coordFromAngleDistance(x, y, angle, height);
+        bullet = sprites.newSprite("img/bullet.png", 4, 4, bulletCoords[0], bulletCoords[1], angle, 300, "bullet");
+        bullet.dx += dx;
+        bullet.dy += dy;
+        bullet.onCollision = function(dt,target) {
+            if (target.tag == "map")
+            {
+                map.createCrater(this.x, this.y, 16);
+                sprites.removeSprite(this); // remove bullet
+                sfx.playSfx("ground_hit");
+            }
+        }
+    };
+
+    var player = sprites.newSprite("img/small_ship.png", 32,32, 300,300, 0,0, "ship");
+>>>>>>> 354093c2f962a56b13d32a58ae43a4124fc571d8
     player.onCollision = function(dt,target) {
         // Collided with another ship or the map
         if ((target.tag == "ship") || (target.tag == "map"))
@@ -130,7 +159,8 @@ define(function(require){
         // Spacebar (shoot)
         if(keyboard.keyDown(32) && (shootTime >= 300) && (player.hp > 0)) {
             sfx.playSfx("laser");
-            bulletCoords = physics.coordFromAngleDistance(player.x, player.y, player.angle, player.height);
+            createBullet(player.x, player.y, player.dx, player.dy, player.angle, player.height);
+            /*bulletCoords = physics.coordFromAngleDistance(player.x, player.y, player.angle, player.height);
             bullet = sprites.newSprite("img/bullet.png", 4, 4, bulletCoords[0], bulletCoords[1], player.angle, 300, "bullet");
 			bullet.dx += player.dx;
 			bullet.dy += player.dy;
@@ -141,10 +171,39 @@ define(function(require){
                     sprites.removeSprite(this); // remove bullet
                     sfx.playSfx("ground_hit");
                 }
-            }
+            }*/
             shootTime = 0;
         }
         shootTime+=dt;
+
+        // Down arrow (shoot bomb)
+        if(keyboard.keyDown(40) && (bombShootTime >= 3000) && (player.hp > 0)) {
+            // Shoot the bomb
+            sfx.playSfx("bomb_shoot");
+            bombCoords = physics.coordFromAngleDistance(player.x, player.y, player.angle, player.height + 8);
+            bomb = sprites.newSprite("img/bomb.png", 16, 16, bombCoords[0], bombCoords[1], player.angle, 150, "bomb");
+            bomb.dx += player.dx;
+            bomb.dy += player.dy;
+            // Kick player backwards, because the bomb is so powerful
+            kick = physics.coordFromAngleDistance(0, 0, -player.angle, 200);
+            player.dx += kick[0];
+            player.dy -= kick[1];
+            // When bomb collides, it divides to smaller bullets
+            bomb.onCollision = function(dt,target) {
+                if (target.tag == "map" || target.tag == "ship")
+                {
+                    map.createCrater(this.x, this.y, 64);
+                    sprites.removeSprite(this);
+                    sfx.playSfx("bomb_explode");
+                    for (var i=0; i<360; i+=36)
+                    {
+                        createBullet(this.x, this.y, this.dx, this.dy, i, 0);
+                    }
+                }
+            }
+            bombShootTime = 0;
+        }
+        bombShootTime+=dt;
 
         physics.doGravity(map, sprites, dt);
 
