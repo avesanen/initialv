@@ -27,7 +27,7 @@ A list of features not yet implemented, but would be nice some day:
 [x] bullets will hit own ship and other ships -> hitpoints, death
 [ ] respawn and lives?
 [x] docks on the ground, where ship can be recharged
-[ ] special weapon in another key, for example a bomb that splits to many bullets
+[x] special weapon in another key, for example a bomb that splits to many bullets
 [ ] return of the network game
 [ ] design some way for players to choose map, start game and the game to end
     Choice 1: one player chooses "host game", gets url to clipboard. when pasted in chats to other players,

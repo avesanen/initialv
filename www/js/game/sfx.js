@@ -12,21 +12,33 @@ define(['jquery','exports'], function ($,exports) {
      */
     exports.init = function() {
         // Figure out which extension (codec) to use for the browser
-        if ((new Audio()).canPlayType("audio/ogg; codecs=vorbis")) {
+        // also create empty bgm object since we don't initially play music
+        this.bgm = new Audio();
+        if (/*(new Audio())*/this.bgm.canPlayType("audio/ogg; codecs=vorbis")) {
             this.useExt = ".ogg";
         } else {
             this.useExt = ".mp3";
         }
 
-        // Load all sound effects
-        this.sfx = new Array();
-        this.sfx["thruster"] = new Audio("audio/thruster" + this.useExt); // Sound of thrusting with up arrow
-        this.sfx["laser"] = new Audio("audio/laser" + this.useExt); // Sound of shooting with spacebar
-        this.sfx["ground_hit"] = new Audio("audio/ground_hit" + this.useExt); // A bullet hits ground
-        this.sfx["ship_hit"] = new Audio("audio/ship_hit" + this.useExt); // A ship hits with something
-        this.sfx["explosion"] = new Audio("audio/explosion" + this.useExt); // A ship explodes
-        this.sfx["bomb_shoot"] = new Audio("audio/bomb_shoot" + this.useExt); // A bomb is shot
-        this.sfx["bomb_explode"] = new Audio("audio/explosion" + this.useExt); // A bomb explodes
+        this.sfx = Array();
+        this.sfxCount = 0;
+        this.loadedSfxCount = 0;
+
+        var that = this;
+
+        // Load all sound effects from JSON
+        $.getJSON('sfx.json', function(data) {
+            $.each(data, function(key, val) {
+                //console.log(key + ": " + val);
+                that.sfx[key] = new Audio(val + that.useExt);
+                that.sfxCount++;
+                // .oncanplaythrough= didn't work
+                that.sfx[key].addEventListener("canplaythrough", function() {
+                    that.loadedSfxCount++;
+                    console.log("sfx count: " + that.loadedSfxCount + "/" + that.sfxCount);
+                }, false);
+            });
+        });
     };
 
     /**
@@ -34,8 +46,11 @@ define(['jquery','exports'], function ($,exports) {
      * @param basename Base name of the file (no extension or path)
      */
     exports.playBgm = function(basename) {
-        // Load music
-        this.bgm = new Audio("audio/" + basename + this.useExt);
+        // End old music
+        this.bgm.pause();
+        // Load music reusing old Audio object
+        //this.bgm = new Audio("audio/" + basename + this.useExt);
+        this.bgm.src = "audio/" + basename + this.useExt;
         // Loop the music in FireFox compatible way
         this.bgm.addEventListener('ended', function () {
             this.currentTime = 0;
@@ -57,7 +72,7 @@ define(['jquery','exports'], function ($,exports) {
      * @param number Index of the sound effect
      */
     exports.playSfx = function(number) {
-        console.log("playing sfx: "+number);
+        //console.log("playing sfx: "+number);
         if (this.sfx[number].currentTime > 0)
         {
             this.sfx[number].pause();

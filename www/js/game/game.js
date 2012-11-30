@@ -10,7 +10,7 @@ define(function(require){
 
     // Init sound and start music.
     sfx.init();
-    //sfx.playBgm("bgm");
+    sfx.playBgm("bgm");
 
     // Init sprite engine
     sprites.init('#spritecanvas', map);

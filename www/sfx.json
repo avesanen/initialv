@@ -1,0 +1,9 @@
+{
+    "thruster": "audio/thruster",
+    "laser": "audio/laser",
+    "ground_hit": "audio/ground_hit",
+    "ship_hit": "audio/ship_hit",
+    "explosion": "audio/explosion",
+    "bomb_shoot": "audio/bomb_shoot",
+    "bomb_explode": "audio/explosion"
+}

@@ -1,0 +1,10 @@
+{
+    "bgImage": "background.png",
+    "mapImage": "testmap.png",
+    "dock": [600,305],
+    "gravity": 0.0981,
+    "mapWidth": 1280,
+    "mapHeight": 1440,
+    "bgWidth": 640,
+    "bgHeight": 480
+}
