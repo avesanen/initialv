@@ -39,8 +39,8 @@ html, body, form, fieldset {
 	width: 640px; 
 	height: 480px; 
 	overflow: hidden;
-	
-	background-image:url('/img/background.jpg');
+	/* Comes from map JSON now */
+	/*background-image:url('/img/background.jpg');*/
 	background-position: bottom;
 	background-repeat: no-repeat; 
 }

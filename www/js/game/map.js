@@ -8,32 +8,78 @@
 define(['jquery','exports'], function ($,exports) {
     var canvas;
     var ctx;
-    var width = 2000;
-    var height = 2000;
-    this.gravityConstant = 0.0981; // TODO: from JSON
+
+    // Initial values, in case JSON doesn't provide
+    this.width = 2000;
+    this.height = 2000;
+    this.gravityConstant = 0.0981;
+    //this.dockList = new Array();
+
     var that=this;
 
     /**
      * Initialize canvas with the given ID.
      * @param canvasid ID of the canvas to init.
      */
-    exports.init = function(canvasid) {
+    exports.init = function(canvasid, sprites) {
         that.canvas = $(canvasid)[0];
         that.ctx = that.canvas.getContext('2d');
+        that.sprites = sprites;
     };
 
     /**
      * Load map from given URL
-     * @param mapurl URL for map image. Alpha 100% will be trespassable.
+     * @param mapurl URL for map specificaiton JSON
      */
     exports.loadMap = function(mapurl) {
-        var img = new Image();
-        img.onload = function() {
-            that.ctx.drawImage(img, 0, 0);
-            that.width = img.width;
-            that.height = img.height;
-        };
-        img.src = mapurl;
+        $.getJSON(mapurl, function(data) {
+            $.each(data, function(key, val) {
+                switch(key)
+                {
+                    case "mapImage":
+                        var img = new Image();
+                        img.onload = function() {
+                            that.ctx.drawImage(img, 0, 0);
+                            that.width = img.width;
+                            that.height = img.height;
+                        };
+                        img.src = val;
+                        break;
+                    case "mapWidth":
+                        that.width = val;
+                        break;
+                    case "mapHeight":
+                        that.height = val;
+                        break;
+                    case "bgImage":
+                        maskdiv = document.getElementById("maskdiv");
+                        maskdiv.style.backgroundImage = 'url("' + val + '")';
+                        break;
+                    case "bgWidth":
+                        break;
+                    case "bgHeight":
+                        break;
+                    case "gravity":
+                        that.gravityConstant = val;
+                        break;
+                    case "dock":
+                        for (var i=0; i<val.length; i++) {
+                            var dock = that.sprites.newSprite("img/dock.png", 48, 16, val[i][0], val[i][1], 0, 0, "dock");
+                            dock.onCollision = function(dt, target)
+                            {
+                                if (target.tag == "ship") {
+                                    //console.log("docked");
+                                    target.docked = true;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        console.log("Unknown map key: "+key);
+                        break;
+                }
+            });
+        });
     };
 
     /**

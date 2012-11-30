@@ -10,29 +10,27 @@ define(function(require){
 
     // Init sound and start music.
     sfx.init();
-    sfx.playBgm("bgm");
+    //sfx.playBgm("bgm");
 
     // Init sprite engine
     sprites.init('#spritecanvas', map);
 
     // Init and load map
-    map.init("#mapcanvas");
-    map.loadMap("img/testmap.png");
-
-    var dock = sprites.newSprite("img/dock.png", 48, 16, 600, 305, 0, 0, "dock");
-    dock.onCollision = function(dt, target)
+    map.init("#mapcanvas", sprites);
+    map.loadMap("testmap.json");
+    /*for(var i=0; i<map.dockList.length; i++)
     {
-        if (target.tag == "ship") {
-            console.log("docked");
-            //target.dx = 0;
-            //target.dy = 0;
-            //target.angle = 0;
-            //target.acceleration = 0;
-            //target.x = this.x;
-            //target.y = this.y-15;
-            target.docked = true;
+        console.log(map.dockList[i]);
+        var dock = sprites.newSprite("img/dock.png", 48, 16, map.dockList[i][0], map.dockList[i][1], 0, 0, "dock");
+        dock.onCollision = function(dt, target)
+        {
+            if (target.tag == "ship") {
+                //console.log("docked");
+                target.docked = true;
+            }
         }
-    }
+    }*/
+
 
     // Init particle engine.
     particles.init('#particlecanvas');
