@@ -64,7 +64,7 @@ define(['jquery','exports'], function ($,exports) {
                         break;
                     case "dock":
                         for (var i=0; i<val.length; i++) {
-                            var dock = that.sprites.newSprite("img/dock.png", 48, 16, val[i][0], val[i][1], 0, 0, "dock");
+                            var dock = that.sprites.newSprite("img/dock.png", 48, 16, val[i][0], val[i][1], 0, 0, "dock", -1);
                             dock.onCollision = function(dt, target)
                             {
                                 if (target.tag == "ship") {

@@ -31,6 +31,32 @@ define(function(require){
         }
     }*/
 
+    var plasmaCloud = sprites.newSprite("img/plasma_cloud.png",160,120,250,250,0,0,"plasma", 1);
+    plasmaCloud.onCollision = function(dt,target) {
+        if(target.tag == "bullet")
+        {
+            // damage ships that are near the cloud
+            var cloudSprites = sprites.getNearbySprites(this.x, this.y, 120);
+            for (var i=0; i<cloudSprites.length; i++) {
+                if (cloudSprites[i].tag == "ship")
+                {
+                    cloudSprites[i].hp -= 50;
+                    sfx.playSfx("ship_hit");
+                }
+
+            }
+            sfx.playSfx("explosion");
+            particles.emitter(this.x, this.y, 50);
+            map.createCrater(this.x, this.y, 70);
+            sprites.removeSprite(target); // remove bullet
+            sprites.removeSprite(this); // remove cloud
+        }
+    };
+
+    var hideCloud = sprites.newSprite("img/hiding_cloud.png",320,120,500,150,0,0,"hide",1);
+    hideCloud.onCollision = function(dt,target) {
+
+    };
 
     // Init particle engine.
     particles.init('#particlecanvas');
@@ -56,7 +82,7 @@ define(function(require){
      */
     createBullet = function(x, y, dx, dy, angle, height) {
         bulletCoords = physics.coordFromAngleDistance(x, y, angle, height);
-        bullet = sprites.newSprite("img/bullet.png", 4, 4, bulletCoords[0], bulletCoords[1], angle, 300, "bullet");
+        bullet = sprites.newSprite("img/bullet.png", 4, 4, bulletCoords[0], bulletCoords[1], angle, 300, "bullet", 0);
         bullet.dx += dx;
         bullet.dy += dy;
         bullet.onCollision = function(dt,target) {
@@ -69,8 +95,9 @@ define(function(require){
         }
     };
 
-    var player = sprites.newSprite("img/small_ship.png", 32,32, 600,300, 0,0, "ship");
+    var player = sprites.newSprite("img/small_ship.png", 32,32, 600,300, 0,0, "ship", 0);
     player.onCollision = function(dt,target) {
+        var doDamage = 0;
         // Collided with another ship or the map
         if ((target.tag == "ship") || (target.tag == "map"))
         {
@@ -86,7 +113,7 @@ define(function(require){
             {
                 particles.emitter(this.x, this.y, 10);
                 sfx.playSfx("ship_hit");
-                this.hp -= 5;
+                doDamage = 5;
             }
         }
         // Collided with a bullet
@@ -95,16 +122,21 @@ define(function(require){
             sprites.removeSprite(target); // remove bullet that hit the ship
             particles.emitter(this.x, this.y, 10);
             sfx.playSfx("ship_hit");
-            this.hp -= 20;
+            doDamage = 20;
         }
+        // Damage
+        this.hp -= doDamage;
         // Died
-        if (this.hp <= 0)
+        if (this.hp <= 0 && this.hp > -1000 && doDamage > 0)
         {
             particles.emitter(this.x, this.y, 100);
-            this.visible = false;
+            //this.visible = false;
+            this.img.src="img/small_ship_broken.png";
             sfx.playSfx("explosion");
             sfx.stopSfx("thruster");
             map.createCrater(this.x, this.y, 100);
+            this.dy += 0.001; // allow dead ship to "fall down" if it died staying still
+            this.hp = -1000; // very dead, don't do explosions and falling down ever again ;)
         }
     };
 
@@ -115,11 +147,11 @@ define(function(require){
         var dt = now-lastRefresh;
 
         // Left arrow (turn left)
-        if(keyboard.keyDown(37)) {
+        if(keyboard.keyDown(37) && player.hp>0) {
             player.angle -= 0.25 * dt;
         }
         // Right arrow (turn right)
-        if(keyboard.keyDown(39)) {
+        if(keyboard.keyDown(39) && player.hp>0) {
             player.angle += 0.25 * dt;
         }
         // Up arrow (thruster)
@@ -154,18 +186,6 @@ define(function(require){
         if(keyboard.keyDown(32) && (shootTime >= 300) && (player.hp > 0)) {
             sfx.playSfx("laser");
             createBullet(player.x, player.y, player.dx, player.dy, player.angle, player.height);
-            /*bulletCoords = physics.coordFromAngleDistance(player.x, player.y, player.angle, player.height);
-            bullet = sprites.newSprite("img/bullet.png", 4, 4, bulletCoords[0], bulletCoords[1], player.angle, 300, "bullet");
-			bullet.dx += player.dx;
-			bullet.dy += player.dy;
-            bullet.onCollision = function(dt,target) {
-                if (target.tag == "map")
-                {
-                    map.createCrater(this.x, this.y, 16);
-                    sprites.removeSprite(this); // remove bullet
-                    sfx.playSfx("ground_hit");
-                }
-            }*/
             shootTime = 0;
         }
         shootTime+=dt;
@@ -175,7 +195,7 @@ define(function(require){
             // Shoot the bomb
             sfx.playSfx("bomb_shoot");
             bombCoords = physics.coordFromAngleDistance(player.x, player.y, player.angle, player.height + 8);
-            bomb = sprites.newSprite("img/bomb.png", 16, 16, bombCoords[0], bombCoords[1], player.angle, 150, "bomb");
+            bomb = sprites.newSprite("img/bomb.png", 16, 16, bombCoords[0], bombCoords[1], player.angle, 150, "bomb", 0);
             bomb.dx += player.dx;
             bomb.dy += player.dy;
             // Kick player backwards, because the bomb is so powerful
@@ -218,7 +238,9 @@ define(function(require){
         }
 
         // Update status bar
-        $("div#statusdiv").text("Integrity: " + Math.round(player.hp) + "%");
+        var statusHealth = Math.round(player.hp);
+        if (statusHealth < 0) statusHealth = 0;
+        $("div#statusdiv").text("Integrity: " + statusHealth + "%");
 
         lastRefresh = now;
 

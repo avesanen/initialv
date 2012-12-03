@@ -29,8 +29,9 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
      * @param angle initial angle
      * @param speed initial speed
      * @param tag some tag, such as "ship" or "bullet", to identify the type of the sprite
+     * @param z ordering, if some sprites have to be drawn on background (first) or foreground (last)
      */
-    var Sprite = function(filename,width,height,x,y,angle,speed,tag) {
+    var Sprite = function(filename,width,height,x,y,angle,speed,tag,z) {
         this.x = x;
         this.y = y;
         this.dx = Math.sin(angle * Math.PI / 180)*speed;
@@ -43,6 +44,7 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
         this.tag = tag;
         this.hp = 100; // 100% health at the beginning
         this.visible = true; // sprite is visible by default
+        this.z = z;
         console.log(this.width, this.height);
     };
 
@@ -82,11 +84,14 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
      * @param angle initial angle
      * @param speed initial speed
      * @param tag some tag, such as "ship" or "bullet", to identify the type of the sprite
+     * @param z ordering, if some sprites have to be drawn on background (first) or foreground (last)
      * @return {Sprite}
      */
-    exports.newSprite = function(filename,width,height,x,y,angle,speed,tag) {
-        var spr = new Sprite(filename,width,height,x,y,angle,speed,tag);
+    exports.newSprite = function(filename,width,height,x,y,angle,speed,tag,z) {
+        var spr = new Sprite(filename,width,height,x,y,angle,speed,tag,z);
         this.spritelist.push(spr);
+        // sort the sprite list by "z"
+        this.spritelist.sort(function(a,b){return a.z > b.z});
         return spr;
     };
 
@@ -105,6 +110,7 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
      */
     exports.reDraw = function() {
         canvas.width = canvas.width;
+
         for(var i = 0; i < this.spritelist.length;i++){
             this.spritelist[i].draw();
         }
@@ -137,6 +143,27 @@ define(['jquery','exports', 'require','./imageloader'], function ($,exports,requ
         {
             return false;
         }
+    }
+
+    /**
+     * Get list of sprites that are inside the specified area
+     * @param x
+     * @param y
+     * @param radius
+     * @return {Array}
+     */
+    exports.getNearbySprites = function(x, y, radius)
+    {
+        var nearbyList = Array();
+        for (var i=0; i<this.spritelist.length; i++)
+        {
+            if ((Math.abs(this.spritelist[i].x - x) < radius)
+                && (Math.abs(this.spritelist[i].y - y) < radius))
+            {
+                nearbyList.push(this.spritelist[i]);
+            }
+        }
+        return nearbyList;
     }
 
     /**
