@@ -7,14 +7,18 @@ html, body, form, fieldset {
 	margin-top: 25px;
     font-size: 13px;
 	line-height: 20px;
-    font-family: 'Ubuntu', Geneva, sans-serif;
+    font-family: 'Droid Sans', Geneva, sans-serif;
 	/*background-image:url('pics/bg1.png');*/
 	background-color: #232323; 
     background-repeat: repeat-x;
 	overflow: hidden;
 	color: #eeeeee;
-	
-	}
+}
+
+a:link, a:visited {
+    color: #ffffff;
+    background: purple;
+}
 
 #container{
 	width: 820px;
@@ -39,8 +43,8 @@ html, body, form, fieldset {
 	width: 640px; 
 	height: 480px; 
 	overflow: hidden;
-	/* Comes from map JSON now */
-	/*background-image:url('/img/background.jpg');*/
+	
+	background-image:url('/img/background.jpg');
 	background-position: bottom;
 	background-repeat: no-repeat; 
 }
